@@ -1,10 +1,10 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
-/*                     CLOP ( A logging library for C )                       */
+/*                      CLOP ( A logging library for C )                      */
 /*                       Written by Nathan Fiscaletti                         */
 /*                                                                            */
-/*                       Version 2017.11.7.1510100942                         */
-/*               Released on November 7th, 2017 at 4:31PM PST                 */
+/*                           2017.11.30.1512064181                            */
+/*             Released on November 30th, 2017 at  9:39AM PST                 */
 /*                                                                            */
 /*                                  License                                   */ 
 /*   http://raw.githubusercontent.com/nathan-fiscaletti/clop/master/LICENSE   */

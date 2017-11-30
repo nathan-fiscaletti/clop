@@ -1,12 +1,12 @@
 #include "clop.h"
 
 char* clop_default_formatter (
-    char* logname, char* message, 
+    char* logname, char* message,
     clop_log_level level, int verb, char* timestamp_fmt
 );
 
 void clop_default_writer (
-    char* dir, char* logname, 
+    char* dir, char* logname,
     char* data, int verb
 );
 
@@ -23,7 +23,7 @@ clop_logger* clop_new(char* name, char* log_location, char* timestamp_fmt) {
 }
 
 void clop_log (
-    clop_logger* logger, clop_log_level level, 
+    clop_logger* logger, clop_log_level level,
     int verb, char* fmt, ...
 ) {
     va_list args,argsc;
@@ -33,25 +33,25 @@ void clop_log (
     int need = 0;
     char *out = NULL;
 
-    clop_log_allocate_output_buffer: {    
+    clop_log_allocate_output_buffer: {
         if (out == NULL)
             out = (char*)malloc(need);
-        else 
-            out = (char*)realloc(out, need + 1);
+        else
+            out = (char*)realloc(out, need);
 
         memset(out, 0, need);
         va_copy(argsc, args);
         need = vsnprintf (
-            out, 
-            need + 1, 
-            fmt, 
+            out,
+            need,
+            fmt,
             argsc
-        );
+        ) + 1;
 
         if (! found_length) {
             found_length = 1;
             goto clop_log_allocate_output_buffer;
-        } 
+        }
     }
 
     va_end(args);
@@ -61,14 +61,14 @@ void clop_log (
         logger->timestamp_fmt
     );
 
-    free(out);    
+    free(out);
 
     logger->write(logger->log_location, logger->name, msg, verb);
     free(msg);
 }
 
 char* clop_default_formatter (
-    char* logname, char* message, clop_log_level level, 
+    char* logname, char* message, clop_log_level level,
     int verb, char* timestamp_fmt
 ) {
     int found_length = 0;
@@ -76,33 +76,33 @@ char* clop_default_formatter (
     char *out = NULL;
 
     char* formatted_date = malloc(128);
-    
+
     time_t timestamp = time(NULL);
     strftime(formatted_date, 128, timestamp_fmt, localtime(&timestamp));
 
     default_output_allocate_output_buffer: {
         if (out == NULL)
             out = (char*)malloc(need);
-        else 
+        else
             out = (char*)realloc(out, need);
 
         memset(out, 0, need);
 
         need = snprintf (
-            out, 
-            need + 1,
-            CLOP_OUT_FMT, 
-            formatted_date, 
+            out,
+            need,
+            CLOP_OUT_FMT,
+            formatted_date,
             logname,
-            verb, 
-            clop_level_as_string(level), 
+            verb,
+            clop_level_as_string(level),
             message
-        );
+        ) + 1;
 
         if (! found_length) {
             found_length = 1;
             goto default_output_allocate_output_buffer;
-        } 
+        }
     }
 
     free(formatted_date);
@@ -120,7 +120,7 @@ void clop_default_writer (char* dir, char* logname, char* data, int verb) {
             FILE* fh = fopen(filename, "w");
             if (fh == NULL) {
                 printf(
-                    "%s", 
+                    "%s",
                     "CLOP: WARN: Failed to write to log file, NULL handle.\n"
                 );
                 printf("CLOP: WARN: Attempted to save to file: %s\n", filename);
@@ -138,7 +138,7 @@ void clop_default_writer (char* dir, char* logname, char* data, int verb) {
 
 char* clop_level_as_string(int level) {
     switch(level) {
-        case Clop_LL_Error: 
+        case Clop_LL_Error:
             return "ERRO";
         case Clop_LL_Warning:
             return "WARN";
@@ -149,7 +149,7 @@ char* clop_level_as_string(int level) {
         case Clop_LL_Debug:
             return "DEBG";
 
-        default: 
+        default:
             return "UNKN";
     }
 }
