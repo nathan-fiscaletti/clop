@@ -3,10 +3,10 @@
 /*                      CLOP ( A logging library for C )                      */
 /*                       Written by Nathan Fiscaletti                         */
 /*                                                                            */
-/*                           2017.11.30.1512064181                            */
-/*             Released on November 30th, 2017 at  9:39AM PST                 */
+/*                           2017.11.30.1512064384                            */
+/*             Released on November 30th, 2017 at  9:53AM PST                 */
 /*                                                                            */
-/*                                  License                                   */ 
+/*                                  License                                   */
 /*   http://raw.githubusercontent.com/nathan-fiscaletti/clop/master/LICENSE   */
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
@@ -32,16 +32,16 @@ typedef enum clop_log_level {
     Clop_LL_Debug       = 4
 } clop_log_level;
 
-// The clop_formatter typedef is a function signature used to customize the way 
+// The clop_formatter typedef is a function signature used to customize the way
 // that log output is formatted. You can implement your own and assign it to the
 // ->format property of your clop_logger instance.
-// If you leave the ->format property set to  NULL, the default clop_formatter 
+// If you leave the ->format property set to  NULL, the default clop_formatter
 // will be used instead, which will utilize the CLOP_OUT_FMT format property.
 typedef char* clop_formatter
-( 
-    char* logname, char* message, 
-    clop_log_level level, int verb, 
-    char* timestamp_fmt 
+(
+    char* logname, char* message,
+    clop_log_level level, int verb,
+    char* timestamp_fmt
 );
 
 // The clop_writer typedef is a function signature used to customize the way
@@ -52,10 +52,10 @@ typedef char* clop_formatter
 // Each log file written to by the default clop_writer will be separated based
 // on the current messages verbosity.
 // If log_location is NULL when calling clop_new, no logs will be written.
-typedef void  clop_writer        
-( 
-    char* dir, char* logname, 
-    char* data, int verb 
+typedef void  clop_writer
+(
+    char* dir, char* logname,
+    char* data, int verb
 );
 
 // This struct is used to manage loggers.
@@ -75,17 +75,17 @@ clop_logger* clop_new
     char* name, char* log_location, char* timestamp_fmt
 );
 
-// This function will log a message using the logger. When using the default 
-// formatter and writer the verbosity will control which log file the message 
+// This function will log a message using the logger. When using the default
+// formatter and writer the verbosity will control which log file the message
 // is sent to as well as how the message is formatted and output in the end.
 void clop_log
 (
-    clop_logger* logger, clop_log_level level, 
-    int verb, char* fmt, ...               
+    clop_logger* logger, clop_log_level level,
+    int verb, char* fmt, ...
 );
 
 // This function will convert a clop_log_level to it's string representation.
 char* clop_level_as_string
-( 
+(
     int level
 );

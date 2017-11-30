@@ -2,5 +2,5 @@
 gcc -o clop_test clop_test.c clop.c >/dev/null
 ./clop_test
 rm clop_test >/dev/null 2>&1
-echo 
+echo
 echo "Test complete."
